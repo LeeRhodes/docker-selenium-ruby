@@ -1,0 +1,51 @@
+// This was designed to be used for a Kubernetes based Jenkins Server running Dynamic Slave Pods using the Kubernetes Plugin
+
+podTemplate(name: "firefox") {
+  node("firefox") {
+
+    stage("Checkout Tests") {
+      container("firefox") {
+        checkout scm
+      }
+    }
+
+    stage("Run Tests") {
+      container("firefox") {
+        ansiColor('xterm') {
+          sh("rake acquisition")
+        }
+      }
+    }
+
+    stage("Build Reports") {
+      container("firefox") {
+        sh 'report_builder -o reports/report1 -f json'
+      }
+    }
+
+    stage("Rerun Failed Tests") {
+      container("firefox") {
+        ansiColor('xterm') {
+          try {
+            sh("rake headless_reruns")
+          } catch (error) {
+            echo 'Tests Failed'
+            currentBuild.result = 'FAILURE'
+          }
+        }
+      }
+    }
+
+    stage("Send Report to Slack") {
+      container("firefox") {
+        cucumberSlackSend channel: 'automated-regression', json: '/home/jenkins/workspace/{Job-Name}/reports/report1.json'
+      }
+    }
+    
+    stage("Jenkins Cucumber Report") {
+      container("firefox") {
+        step([$class: 'CucumberReportPublisher', failedFeaturesNumber: 0, failedScenariosNumber: 0, failedStepsNumber: 0, fileExcludePattern: '', fileIncludePattern: '**/*.json', jsonReportDirectory: 'reports/', pendingStepsNumber: 0, skippedStepsNumber: 0, undefinedStepsNumber: 0])
+      }
+    }
+  }
+}
