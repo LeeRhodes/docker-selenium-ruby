@@ -44,6 +44,8 @@ ENV LC_ALL en_US.UTF-8
 # set env variables
 ENV FF_VERSION="40.0.3"
 
+USER root
+
 # install libs, xvfb and firefox
 RUN apt-get update && apt-get install -y zlib1g-dev xvfb libxcomposite1 libasound2 libdbus-glib-1-2 libgtk2.0-0
 RUN wget "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FF_VERSION}/linux-x86_64/en-US/firefox-${FF_VERSION}.tar.bz2" \
