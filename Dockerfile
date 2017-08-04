@@ -17,7 +17,6 @@ RUN apt-get update
 
 RUN apt-get install -y ruby2.3 ruby2.3-dev
 RUN apt-get install -y imagemagick libmagickwand-dev
-RUN apt-get install -y nodejs
 RUN apt-get install -y git
 RUN apt-get install -y build-essential
 RUN apt-get clean
@@ -37,10 +36,6 @@ RUN bundle install
 ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
 # set env variables
 ENV FF_VERSION="40.0.3"
 
@@ -52,5 +47,3 @@ RUN wget "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FF_V
     -O /tmp/firefox.tar.bz2 && \
     tar xvf /tmp/firefox.tar.bz2 -C /opt && \
     ln -s /opt/firefox/firefox /usr/bin/firefox
-
-EXPOSE 465
