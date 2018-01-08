@@ -1,10 +1,10 @@
-FROM openjdk:8-jdk
-
+FROM ruby:2.4.3-slim-jessie
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     wget \
     curl \
     zip \
+    git \
     openssh-client \
     unzip \
     && rm -rf /var/lib/apt/lists/*
@@ -15,9 +15,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y ruby2.3 ruby2.3-dev
 RUN apt-get install -y imagemagick libmagickwand-dev
-RUN apt-get install -y git
 RUN apt-get install -y build-essential
 RUN apt-get clean
 
