@@ -47,7 +47,6 @@ jobs:
             mkdir /tmp/test-results
             
             bundle exec rspec spec/tests/test_spec.rb --format progress \
-                            --format RspecJunitFormatter \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
 
