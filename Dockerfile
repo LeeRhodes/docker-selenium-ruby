@@ -1,4 +1,5 @@
-FROM ruby:2.4.3-slim-jessie
+FROM ruby:2.3-slim-jessie
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     wget \
