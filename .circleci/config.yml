@@ -46,13 +46,24 @@ jobs:
           command: |
             mkdir /tmp/test-results
             
-            bundle exec rspec spec/tests/test_spec.rb --format progress \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
+            bundle exec rspec spec/tests/test_spec.rb --format progress
+      
+      - setup_remote_docker
+      
+      # push to repo.
+      - run:    
+          name: docker build ruby container
+          command: |
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+            docker build -t ayethin/docker-selenium-ruby:lite2.3 .
+          
+          name: docker push
+          command: |
+            docker push ayethin/docker-selenium-ruby:lite2.3
 
       # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+      # - store_test_results:
+      #     path: /tmp/test-results
+      # - store_artifacts:
+      #     path: /tmp/test-results
+      #     destination: test-results
