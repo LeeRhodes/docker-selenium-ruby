@@ -56,9 +56,6 @@ jobs:
           command: |
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             docker build -t ayethin/docker-selenium-ruby:lite2.3 .
-          
-          name: docker push
-          command: |
             docker push ayethin/docker-selenium-ruby:lite2.3
 
       # collect reports
