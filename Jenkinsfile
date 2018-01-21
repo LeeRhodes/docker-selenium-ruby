@@ -17,7 +17,7 @@ node('docker-builder') {
     checkout scm
 
     stage ('test') {
-            def app = docker.image('tag')
+            def app = docker.image('golang:rc-alpine')
             app.pull()
             app.inside {
                 sh 'ls -alh'
