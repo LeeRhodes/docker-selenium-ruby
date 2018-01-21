@@ -14,6 +14,8 @@ volumes: [
 ]) {
 node('docker-builder') {
     
+    checkout scm
+
     stage ('test') {
             def app = docker.image('tag')
             app.pull()
