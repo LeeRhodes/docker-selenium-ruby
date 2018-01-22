@@ -18,7 +18,7 @@ node('docker-builder') {
 
     stage ('test') {
         def app = docker.image('golang:rc-alpine')
-            container {
+            container('docker') {
                 app.pull()
             }
         app.inside {
