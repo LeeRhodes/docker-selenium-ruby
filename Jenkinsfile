@@ -1,7 +1,7 @@
 podTemplate(label: 'docker-builder', cloud: 'kubernetes', namespace: 'jenkins-helm', containers: [
     containerTemplate(
-        name: 'jnlp', // named jnlp so you can override standard image
-        image: 'ayethin/jnlp-docker',
+        name: 'docker', // named jnlp so you can override standard image
+        image: 'docker',
         ttyEnabled: true,
         privileged: false,
         alwaysPullImage: false,
@@ -17,11 +17,13 @@ node('docker-builder') {
     checkout scm
 
     stage ('test') {
-            def app = docker.image('golang:rc-alpine')
-            app.pull()
-            app.inside {
-                sh 'ls -alh'
+        def app = docker.image('golang:rc-alpine')
+            container {
+                app.pull()
             }
+        app.inside {
+            sh 'ls -alh'
+        }
     }
 }
 }
